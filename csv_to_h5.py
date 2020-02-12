@@ -8,11 +8,14 @@ import gzip
 import argparse
 
 psr = argparse.ArgumentParser(description='convert csv file to hdf5')
-psr.add_argument('--in',  default='in_file.csv')
-psr.add_argument('--save_dir', default=".")
-psr.add_argument('--out', default='out_file.h5')
+psr.add_argument('--in',  default='in_file.csv', help='inut csv file')
+psr.add_argument('--save_dir', default=".", help='dir to save the h5 file in')
+psr.add_argument('--out', default='out_file.h5', help='name of output h5 file')
 psr.add_argument('--key', default='df', help="h5 key")
 args=vars(psr.parse_args())
+if not args['save_dir'].endswith('/'):
+    args['save_dir'] = args['save_dir'] + '/'
+
 print(args)
 
 def load_csv_dataset(infile):
@@ -34,7 +37,7 @@ def csv_to_h5(infile, outfile='outfile.h5', key='df'):
 
 
 def main(args):
-    csv_to_h5(args['in'], args['out'], args['key'])
+    csv_to_h5(args['in'], args['save_dir'] + args['out'], args['key'])
     print('done')
 
 if __name__ == '__main__':
